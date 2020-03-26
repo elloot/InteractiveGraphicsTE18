@@ -24,6 +24,11 @@ public class Graphics extends Canvas implements Runnable {
     private int fps = 60;
     private int ups = 10;
 
+    /*private boolean hasUpdated = false;*/
+    private int spriteX = 500;
+    private int spriteY = 500;
+    private double move;
+
     private Sprite s;
 
     public Graphics(int w, int h) {
@@ -62,14 +67,33 @@ public class Graphics extends Canvas implements Runnable {
             pixels[i] = 0;
         }
 
-        int x = (int)(Math.random()*(width-32));
-        int y = (int)(Math.random()*(height-32));
+        /*int x = (int)(Math.random()*(width-32));
+        int y = (int)(Math.random()*(height-32));*/
+
+        int x = (int) (Math.cos(move)*10 + width/2);
+        int y = (int) (Math.sin(move)*10 + height/2);
+
+        move += 0.2;
+
+
+        /*spriteX += 10;
+        int x = spriteX;
+        int y = spriteY;*/
+
+        /*if (!hasUpdated) {
+            x = 500;
+            y = 500;
+        } else {
+            x += 1;
+        }*/
 
         for (int i = 0 ; i < s.getHeight() ; i++) {
             for (int j = 0 ; j < s.getWidth() ; j++) {
                 pixels[(y+i)*width + x+j] = s.getPixels()[i*s.getWidth()+j];
             }
         }
+
+        /*hasUpdated = true;*/
     }
 
     public synchronized void start() {
