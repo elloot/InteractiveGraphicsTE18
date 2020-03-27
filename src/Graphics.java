@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -29,9 +26,9 @@ public class Graphics extends Canvas implements Runnable {
     private int fps = 60;
     private int ups = 30;
 
-    private Sprite s;
+    //private Sprite s;
     private Sprite square1;
-    private Sprite square2;
+    //private Sprite square2;
 
     private double t=0;
     private int xSquare1 = 0;
@@ -59,11 +56,12 @@ public class Graphics extends Canvas implements Runnable {
 
         this.addKeyListener(new MyKeyListener());
         this.addMouseListener(new MyMouseListener());
+        this.addMouseMotionListener(new MySecondMouseListener());
         this.requestFocus();
 
-        s = new Sprite("sprite.png");
+        //s = new Sprite("sprite.png");
         square1 = new Sprite(16,16,0xFF00FF);
-        square2 = new Sprite(32,8,0x00FF00);
+        //square2 = new Sprite(32,8,0x00FF00);
     }
 
     private void draw() {
@@ -80,9 +78,9 @@ public class Graphics extends Canvas implements Runnable {
     }
 
     private void update() {
-        for (int i = 0 ; i < pixels.length ; i++) {
+        /*for (int i = 0 ; i < pixels.length ; i++) {
             pixels[i] = 0;
-        }
+        }*/
         // The mario sprite
 
         /* Parametric curve (a circle) see https://en.wikipedia.org/wiki/Parametric_equation
@@ -91,23 +89,23 @@ public class Graphics extends Canvas implements Runnable {
         */
         t += Math.PI/180;
 
-        int x = (int)(width/2+(width/2-s.getWidth())*Math.sin(t));
-        int y = (int)(height/2+(height/2-s.getHeight())*Math.cos(t));
+        //int x = (int)(width/2+(width/2-s.getWidth())*Math.sin(t));
+        //int y = (int)(height/2+(height/2-s.getHeight())*Math.cos(t));
 
-        for (int i = 0 ; i < s.getHeight() ; i++) {
+        /*for (int i = 0 ; i < s.getHeight() ; i++) {
             for (int j = 0 ; j < s.getWidth() ; j++) {
                 pixels[(y+i)*width + x+j] = s.getPixels()[i*s.getWidth()+j];
             }
-        }
+        }*/
 
         // The moving magenta square
-        if (xSquare1 + vxSquare1 < 0 || xSquare1 + vxSquare1 > width - square1.getWidth())
+        /*if (xSquare1 + vxSquare1 < 0 || xSquare1 + vxSquare1 > width - square1.getWidth())
             vxSquare1 = 0;
         if (ySquare1 + vySquare1 < 0 || ySquare1 + vySquare1 > height - square1.getHeight())
             vySquare1 = 0;
 
         xSquare1 += vxSquare1;
-        ySquare1 += vySquare1;
+        ySquare1 += vySquare1;*/
 
         for (int i = 0 ; i < square1.getHeight() ; i++) {
             for (int j = 0 ; j < square1.getWidth() ; j++) {
@@ -116,11 +114,11 @@ public class Graphics extends Canvas implements Runnable {
         }
 
         // The mouse-controlled square
-        for (int i = 0 ; i < square2.getHeight() ; i++) {
+        /*for (int i = 0 ; i < square2.getHeight() ; i++) {
             for (int j = 0 ; j < square2.getWidth() ; j++) {
                 pixels[(ySquare2+i)*width + xSquare2+j] = square2.getPixels()[i*square2.getWidth()+j];
             }
-        }
+        }*/
 
     }
 
@@ -213,12 +211,27 @@ public class Graphics extends Canvas implements Runnable {
 
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
-            square2.setColor(0x00FF00);
+            /*square2.setColor(0x00FF00);*/
         }
 
         @Override
         public void mouseExited(MouseEvent mouseEvent) {
-            square2.setColor(0xFF0000);
+            /*square2.setColor(0xFF0000);*/
+        }
+    }
+
+    private class MySecondMouseListener implements MouseMotionListener {
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (e.getX() <= width*scale && e.getY() <= height*scale) {
+                xSquare1 = e.getX()/scale-(square1.getWidth()/2);
+                ySquare1 = e.getY()/scale-(square1.getHeight()/2);
+            }
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
         }
     }
 }
