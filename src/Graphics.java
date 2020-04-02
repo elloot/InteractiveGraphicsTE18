@@ -42,7 +42,8 @@ public class Graphics extends Canvas implements Runnable {
         this.width = w;
         this.height = h;
         this.scale = scale;
-        image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        //image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         Dimension size = new Dimension(scale*width, scale*height);
         setPreferredSize(size);
@@ -60,7 +61,8 @@ public class Graphics extends Canvas implements Runnable {
         this.requestFocus();
 
         //s = new Sprite("sprite.png");
-        square1 = new Sprite(16,16,0xFF00FF);
+        //square1 = new Sprite(16,16,0xFF00FF);
+        square1 = new Sprite(200);
         //square2 = new Sprite(32,8,0x00FF00);
     }
 
@@ -87,7 +89,6 @@ public class Graphics extends Canvas implements Runnable {
            t controls the coordinates as (x(t),y(t)). Here t is increased by 2 degrees (pi/180 rad)
            each timestep.
         */
-        t += Math.PI/180;
 
         //int x = (int)(width/2+(width/2-s.getWidth())*Math.sin(t));
         //int y = (int)(height/2+(height/2-s.getHeight())*Math.cos(t));

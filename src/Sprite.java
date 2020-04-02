@@ -3,6 +3,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 
 /**
  * This is a class
@@ -47,6 +48,64 @@ public class Sprite {
         this.width = image.getWidth();
         this.height = image.getHeight();
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+    }
+
+    public Sprite(int r) {
+        this.height = r;
+        this.width = r;
+        pixels = new int[height*width];
+
+        int thisIsATest = 0;
+
+        int[] xCoordinates = new int[width];
+        int[] yCoordinates = new int[height];
+
+        for (int i = 0; i < xCoordinates.length; i ++) {
+            if (i < width/2) {
+                xCoordinates[i] = ((xCoordinates.length/2 - i) * -1);
+                yCoordinates[i] = ((yCoordinates.length/2 - i) * -1);
+            } else {
+                xCoordinates[i] = i - ((width/2)-1);
+                yCoordinates[i] = i - ((height/2)-1);
+            }
+        }
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                for (int k = 0; k < 360; k++){
+                    if (Math.signum(xCoordinates[x]) == -1 && Math.signum(yCoordinates[y]) == 1) {
+                        if (xCoordinates[x] >= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[y] <= (Math.sin(Math.toRadians(k))*(height/2))) {
+                            pixels[thisIsATest] = 0xFFFF00FF;
+                            break;
+                        } else {
+                            pixels[thisIsATest] = 0x00FFFFFF;
+                        }
+                    } else if (Math.signum(xCoordinates[x]) == 1 && Math.signum(yCoordinates[y]) == 1) {
+                        if (xCoordinates[x] <= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[y] <= (Math.sin(Math.toRadians(k))*(height/2))) {
+                            pixels[thisIsATest] = 0xFFFF00FF;
+                            break;
+                        } else {
+                            pixels[thisIsATest] = 0x00FFFFFF;
+                        }
+                    } else if (Math.signum(xCoordinates[x]) == -1 && Math.signum(yCoordinates[y]) == -1) {
+                        if (xCoordinates[x] >= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[y] >= (Math.sin(Math.toRadians(k))*(height/2))) {
+                            pixels[thisIsATest] = 0xFFFF00FF;
+                            break;
+                        } else {
+                            pixels[thisIsATest] = 0x00FFFFFF;
+                        }
+                    } else if (Math.signum(xCoordinates[x]) == 1 && Math.signum(yCoordinates[y]) == -1) {
+                        if (xCoordinates[x] <= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[y] >= (Math.sin(Math.toRadians(k))*(height/2))) {
+                            pixels[thisIsATest] = 0xFFFF00FF;
+                            break;
+                        } else {
+                            pixels[thisIsATest] = 0x00FFFFFF;
+                        }
+                    }
+                }
+                thisIsATest++;
+            }
+        }
     }
 
     public int[] getPixels() {
