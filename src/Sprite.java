@@ -21,7 +21,7 @@ public class Sprite {
         this.height = h;
         pixels = new int[w*h];
         for (int i = 0 ; i < pixels.length ; i++) {
-            pixels[i] = 0xFFFFFF;
+            pixels[i] = 0xFFFFFFFF;
         }
     }
 
@@ -40,7 +40,7 @@ public class Sprite {
             BufferedImage rawImage = ImageIO.read(new File(path));
             // Since the type of image is unknown it must be copied into an INT_RGB
             image = new BufferedImage(rawImage.getWidth(), rawImage.getHeight(),
-                    BufferedImage.TYPE_INT_RGB);
+                    BufferedImage.TYPE_INT_ARGB);
             image.getGraphics().drawImage(rawImage, 0, 0, null);
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,28 +78,28 @@ public class Sprite {
                             pixels[thisIsATest] = 0xFFFF00FF;
                             break;
                         } else {
-                            pixels[thisIsATest] = 0x00FFFFFF;
+                            pixels[thisIsATest] = 0x00000000;
                         }
                     } else if (Math.signum(xCoordinates[x]) == 1 && Math.signum(yCoordinates[y]) == 1) {
                         if (xCoordinates[x] <= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[y] <= (Math.sin(Math.toRadians(k))*(height/2))) {
                             pixels[thisIsATest] = 0xFFFF00FF;
                             break;
                         } else {
-                            pixels[thisIsATest] = 0x00FFFFFF;
+                            pixels[thisIsATest] = 0x00000000;
                         }
                     } else if (Math.signum(xCoordinates[x]) == -1 && Math.signum(yCoordinates[y]) == -1) {
                         if (xCoordinates[x] >= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[y] >= (Math.sin(Math.toRadians(k))*(height/2))) {
                             pixels[thisIsATest] = 0xFFFF00FF;
                             break;
                         } else {
-                            pixels[thisIsATest] = 0x00FFFFFF;
+                            pixels[thisIsATest] = 0x00000000;
                         }
                     } else if (Math.signum(xCoordinates[x]) == 1 && Math.signum(yCoordinates[y]) == -1) {
                         if (xCoordinates[x] <= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[y] >= (Math.sin(Math.toRadians(k))*(height/2))) {
                             pixels[thisIsATest] = 0xFFFF00FF;
                             break;
                         } else {
-                            pixels[thisIsATest] = 0x00FFFFFF;
+                            pixels[thisIsATest] = 0x00000000;
                         }
                     }
                 }
