@@ -80,9 +80,9 @@ public class Graphics extends Canvas implements Runnable {
     }
 
     private void update() {
-        /*for (int i = 0 ; i < pixels.length ; i++) {
-            pixels[i] = 0;
-        }*/
+        for (int i = 0 ; i < pixels.length ; i++) {
+            pixels[i] = 0xFF000000;
+        }
         // The mario sprite
 
         /* Parametric curve (a circle) see https://en.wikipedia.org/wiki/Parametric_equation
