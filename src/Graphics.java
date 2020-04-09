@@ -33,8 +33,13 @@ public class Graphics extends Canvas implements Runnable {
     private double t=0;
     private int xSquare1 = 0;
     private int ySquare1 = 0;
-    private int vxSquare1 = 0;
-    private int vySquare1 = 0;
+    private double vxSquare1 = 0;
+    private double vySquare1 = 0;
+
+    private int timeSinceBounce = 0;
+    private double acceleration = 1;
+    private double vySquare1Start = 0;
+
     private int xSquare2 = 100;
     private int ySquare2 = 100;
 
@@ -62,7 +67,7 @@ public class Graphics extends Canvas implements Runnable {
 
         //s = new Sprite("sprite.png");
         //square1 = new Sprite(16,16,0xFF00FF);
-        square1 = new Sprite(200);
+        square1 = new Sprite(50, 50);
         //square2 = new Sprite(32,8,0x00FF00);
     }
 
@@ -99,14 +104,18 @@ public class Graphics extends Canvas implements Runnable {
             }
         }*/
 
+        //change y-velocity with acceleration and time
+        vySquare1 = vySquare1Start + (acceleration* timeSinceBounce);
+        timeSinceBounce++;
+
         // The moving magenta square
-        /*if (xSquare1 + vxSquare1 < 0 || xSquare1 + vxSquare1 > width - square1.getWidth())
+        if (xSquare1 + vxSquare1 < 0 || xSquare1 + vxSquare1 > width - square1.getWidth())
             vxSquare1 = 0;
         if (ySquare1 + vySquare1 < 0 || ySquare1 + vySquare1 > height - square1.getHeight())
             vySquare1 = 0;
 
         xSquare1 += vxSquare1;
-        ySquare1 += vySquare1;*/
+        ySquare1 += vySquare1;
 
         for (int i = 0 ; i < square1.getHeight() ; i++) {
             for (int j = 0 ; j < square1.getWidth() ; j++) {
@@ -201,8 +210,9 @@ public class Graphics extends Canvas implements Runnable {
 
         @Override
         public void mousePressed(MouseEvent mouseEvent) {
-            xSquare2 = mouseEvent.getX()/scale;
-            ySquare2 = mouseEvent.getY()/scale;
+            vySquare1 = -10;
+            vySquare1Start = vySquare1;
+            timeSinceBounce = 0;
         }
 
         @Override
@@ -225,10 +235,10 @@ public class Graphics extends Canvas implements Runnable {
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            if (e.getX() <= width*scale && e.getY() <= height*scale) {
+            /*if (e.getX() <= width*scale && e.getY() <= height*scale) {
                 xSquare1 = e.getX()/scale-(square1.getWidth()/2);
                 ySquare1 = e.getY()/scale-(square1.getHeight()/2);
-            }
+            }*/
         }
 
         @Override
