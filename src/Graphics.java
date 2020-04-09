@@ -69,6 +69,11 @@ public class Graphics extends Canvas implements Runnable {
         //s = new Sprite("sprite.png");
         //square1 = new Sprite(16,16,0xFF00FF);
         square1 = new Sprite(50, 50);
+        this.xSquare1 = width/2 - (square1.getWidth()/2);
+        this.vxSquare1 = 3*Math.random();
+        if (Math.random() < 0.5) {
+            this.vxSquare1 *= -1;
+        }
         //square2 = new Sprite(32,8,0x00FF00);
     }
 
@@ -181,7 +186,7 @@ public class Graphics extends Canvas implements Runnable {
 
         @Override
         public void keyPressed(KeyEvent keyEvent) {
-            if (keyEvent.getKeyChar()=='a') {
+            /*if (keyEvent.getKeyChar()=='a') {
                 vxSquare1 = -5;
             } else if (keyEvent.getKeyChar()=='d') {
                 vxSquare1 = 5;
@@ -189,16 +194,16 @@ public class Graphics extends Canvas implements Runnable {
                 vySquare1 = -5;
             } else if (keyEvent.getKeyChar()=='s') {
                 vySquare1 = 5;
-            }
+            }*/
         }
 
         @Override
         public void keyReleased(KeyEvent keyEvent) {
-            if (keyEvent.getKeyChar()=='a' || keyEvent.getKeyChar()=='d') {
+            /*if (keyEvent.getKeyChar()=='a' || keyEvent.getKeyChar()=='d') {
                 vxSquare1 = 0;
             } else if (keyEvent.getKeyChar()=='w' || keyEvent.getKeyChar()=='s') {
                 vySquare1 = 0;
-            }
+            }*/
         }
     }
 
