@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.Arrays;
 
 /**
  * This is a class
@@ -85,9 +86,7 @@ public class Graphics extends Canvas implements Runnable {
     }
 
     private void update() {
-        for (int i = 0 ; i < pixels.length ; i++) {
-            pixels[i] = 0xFF000000;
-        }
+        Arrays.fill(pixels, 0xFF000000);
         // The mario sprite
 
         /* Parametric curve (a circle) see https://en.wikipedia.org/wiki/Parametric_equation
