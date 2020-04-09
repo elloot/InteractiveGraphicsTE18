@@ -28,14 +28,20 @@ public class Graphics extends Canvas implements Runnable {
     private int ups = 30;
 
     //private Sprite s;
-    private Sprite square1;
+    private Sprite ball;
+    private Sprite paddle;
     //private Sprite square2;
 
     private double t=0;
-    private int xSquare1 = 0;
-    private int ySquare1 = 0;
-    private double vxSquare1 = 0;
-    private double vySquare1 = 0;
+    private int xBall = 0;
+    private int yBall = 0;
+    private double vxBall = 0;
+    private double vyBall = 0;
+
+    private int xPaddle = 0;
+    private int yPaddle = 0;
+    private double vxPaddle = 0;
+    private double vyPaddle = 0;
 
     private int timeSinceBounce = 0;
     private double acceleration = 1;
@@ -68,12 +74,16 @@ public class Graphics extends Canvas implements Runnable {
 
         //s = new Sprite("sprite.png");
         //square1 = new Sprite(16,16,0xFF00FF);
-        square1 = new Sprite(50, 50);
-        this.xSquare1 = width/2 - (square1.getWidth()/2);
-        this.vxSquare1 = 3*Math.random();
+        ball = new Sprite(50, 50);
+        this.xBall = width/2 - (ball.getWidth()/2);
+        this.vxBall = 3*Math.random();
         if (Math.random() < 0.5) {
-            this.vxSquare1 *= -1;
+            this.vxBall *= -1;
         }
+
+        paddle = new Sprite(100, 10);
+        this.xPaddle = width/2 - (paddle.getWidth()/2);
+        this.yPaddle = height - paddle.getHeight();
         //square2 = new Sprite(32,8,0x00FF00);
     }
 
@@ -109,21 +119,27 @@ public class Graphics extends Canvas implements Runnable {
         }*/
 
         //change y-velocity with acceleration and time
-        vySquare1 = vySquare1Start + (acceleration* timeSinceBounce);
+        vyBall = vySquare1Start + (acceleration* timeSinceBounce);
         timeSinceBounce++;
 
         // The moving magenta square
-        if (xSquare1 + vxSquare1 < 0 || xSquare1 + vxSquare1 > width - square1.getWidth())
-            vxSquare1 = 0;
-        if (ySquare1 + vySquare1 < 0 || ySquare1 + vySquare1 > height - square1.getHeight())
-            vySquare1 = 0;
+        if (xBall + vxBall < 0 || xBall + vxBall > width - ball.getWidth())
+            vxBall = 0;
+        if (yBall + vyBall < 0 || yBall + vyBall > height - ball.getHeight())
+            vyBall = 0;
 
-        xSquare1 += vxSquare1;
-        ySquare1 += vySquare1;
+        xBall += vxBall;
+        yBall += vyBall;
 
-        for (int i = 0 ; i < square1.getHeight() ; i++) {
-            for (int j = 0 ; j < square1.getWidth() ; j++) {
-                pixels[(ySquare1+i)*width + xSquare1+j] = square1.getPixels()[i*square1.getWidth()+j];
+        for (int i = 0; i < ball.getHeight() ; i++) {
+            for (int j = 0; j < ball.getWidth() ; j++) {
+                pixels[(yBall +i)*width + xBall +j] = ball.getPixels()[i* ball.getWidth()+j];
+            }
+        }
+
+        for (int i = 0; i < paddle.getHeight() ; i++) {
+            for (int j = 0; j < paddle.getWidth() ; j++) {
+                pixels[(yPaddle +i)*width + xPaddle +j] = paddle.getPixels()[i* paddle.getWidth()+j];
             }
         }
 
@@ -214,8 +230,8 @@ public class Graphics extends Canvas implements Runnable {
 
         @Override
         public void mousePressed(MouseEvent mouseEvent) {
-            vySquare1 = -10;
-            vySquare1Start = vySquare1;
+            vyBall = -10;
+            vySquare1Start = vyBall;
             timeSinceBounce = 0;
         }
 
