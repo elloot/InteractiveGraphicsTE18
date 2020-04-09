@@ -131,6 +131,8 @@ public class Graphics extends Canvas implements Runnable {
         xBall += vxBall;
         yBall += vyBall;
 
+        xPaddle += vxPaddle;
+
         for (int i = 0; i < ball.getHeight() ; i++) {
             for (int j = 0; j < ball.getWidth() ; j++) {
                 pixels[(yBall +i)*width + xBall +j] = ball.getPixels()[i* ball.getWidth()+j];
@@ -202,6 +204,14 @@ public class Graphics extends Canvas implements Runnable {
 
         @Override
         public void keyPressed(KeyEvent keyEvent) {
+            switch (keyEvent.getKeyChar()) {
+                case 'a':
+                    vxPaddle = -5;
+                    break;
+                case 'd':
+                    vxPaddle = 5;
+                    break;
+            }
             /*if (keyEvent.getKeyChar()=='a') {
                 vxSquare1 = -5;
             } else if (keyEvent.getKeyChar()=='d') {
@@ -215,9 +225,9 @@ public class Graphics extends Canvas implements Runnable {
 
         @Override
         public void keyReleased(KeyEvent keyEvent) {
-            /*if (keyEvent.getKeyChar()=='a' || keyEvent.getKeyChar()=='d') {
-                vxSquare1 = 0;
-            } else if (keyEvent.getKeyChar()=='w' || keyEvent.getKeyChar()=='s') {
+            if (keyEvent.getKeyChar()=='a' || keyEvent.getKeyChar()=='d') {
+                vxPaddle = 0;
+            } /*else if (keyEvent.getKeyChar()=='w' || keyEvent.getKeyChar()=='s') {
                 vySquare1 = 0;
             }*/
         }
