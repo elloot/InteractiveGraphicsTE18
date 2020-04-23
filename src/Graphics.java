@@ -39,17 +39,9 @@ public class Graphics extends Canvas implements Runnable {
     private double vxBall = 0;
     private double vyBall = 0;
 
-    private int xPaddle = 0;
-    private int yPaddle = 0;
-    private double vxPaddle = 0;
-    private double vyPaddle = 0;
-
     private int timeSinceBounce = 0;
     private double acceleration = 1;
-    private double vySquare1Start = 0;
-
-    private int xSquare2 = 100;
-    private int ySquare2 = 100;
+    private double vyBallStart = 0;
 
     public Graphics(int w, int h, int scale) {
         this.width = w;
@@ -70,11 +62,8 @@ public class Graphics extends Canvas implements Runnable {
 
         this.addKeyListener(new MyKeyListener());
         this.addMouseListener(new MyMouseListener());
-        this.addMouseMotionListener(new MySecondMouseListener());
         this.requestFocus();
 
-        //s = new Sprite("sprite.png");
-        //square1 = new Sprite(16,16,0xFF00FF);
         ball = new Sprite(50, 50);
         this.xBall = width/2 - (ball.getWidth()/2);
         this.vxBall = 3*Math.random();
@@ -83,9 +72,6 @@ public class Graphics extends Canvas implements Runnable {
         }
 
         paddle = new Paddle(100, height-10, 70, 10, 0xFFFFFFFF);
-        this.xPaddle = width/2 - (paddle.getWidth()/2);
-        this.yPaddle = height - paddle.getHeight();
-        //square2 = new Sprite(32,8,0x00FF00);
     }
 
     private void draw() {
@@ -105,24 +91,9 @@ public class Graphics extends Canvas implements Runnable {
 
     private void update() {
         paddle.update(width, height);
-        // The mario sprite
-
-        /* Parametric curve (a circle) see https://en.wikipedia.org/wiki/Parametric_equation
-           t controls the coordinates as (x(t),y(t)). Here t is increased by 2 degrees (pi/180 rad)
-           each timestep.
-        */
-
-        //int x = (int)(width/2+(width/2-s.getWidth())*Math.sin(t));
-        //int y = (int)(height/2+(height/2-s.getHeight())*Math.cos(t));
-
-        /*for (int i = 0 ; i < s.getHeight() ; i++) {
-            for (int j = 0 ; j < s.getWidth() ; j++) {
-                pixels[(y+i)*width + x+j] = s.getPixels()[i*s.getWidth()+j];
-            }
-        }*/
 
         //change y-velocity with acceleration and time
-        vyBall = vySquare1Start + (acceleration* timeSinceBounce);
+        vyBall = vyBallStart + (acceleration* timeSinceBounce);
         timeSinceBounce++;
 
         // The moving magenta square
@@ -134,26 +105,11 @@ public class Graphics extends Canvas implements Runnable {
         xBall += vxBall;
         yBall += vyBall;
 
-        xPaddle += vxPaddle;
-
         for (int i = 0; i < ball.getHeight() ; i++) {
             for (int j = 0; j < ball.getWidth() ; j++) {
                 pixels[(yBall +i)*width + xBall +j] = ball.getPixels()[i* ball.getWidth()+j];
             }
         }
-
-        /*for (int i = 0; i < paddle.getHeight() ; i++) {
-            for (int j = 0; j < paddle.getWidth() ; j++) {
-                pixels[(yPaddle +i)*width + xPaddle +j] = paddle.getPixels()[i* paddle.getWidth()+j];
-            }
-        }*/
-
-        // The mouse-controlled square
-        /*for (int i = 0 ; i < square2.getHeight() ; i++) {
-            for (int j = 0 ; j < square2.getWidth() ; j++) {
-                pixels[(ySquare2+i)*width + xSquare2+j] = square2.getPixels()[i*square2.getWidth()+j];
-            }
-        }*/
 
     }
 
@@ -224,7 +180,7 @@ public class Graphics extends Canvas implements Runnable {
         @Override
         public void mousePressed(MouseEvent mouseEvent) {
             vyBall = -10;
-            vySquare1Start = vyBall;
+            vyBallStart = vyBall;
             timeSinceBounce = 0;
         }
 
@@ -235,27 +191,10 @@ public class Graphics extends Canvas implements Runnable {
 
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
-            /*square2.setColor(0x00FF00);*/
         }
 
         @Override
         public void mouseExited(MouseEvent mouseEvent) {
-            /*square2.setColor(0xFF0000);*/
-        }
-    }
-
-    private class MySecondMouseListener implements MouseMotionListener {
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            /*if (e.getX() <= width*scale && e.getY() <= height*scale) {
-                xSquare1 = e.getX()/scale-(square1.getWidth()/2);
-                ySquare1 = e.getY()/scale-(square1.getHeight()/2);
-            }*/
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
         }
     }
 }
