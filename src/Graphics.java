@@ -82,13 +82,15 @@ public class Graphics extends Canvas implements Runnable {
             this.vxBall *= -1;
         }
 
-        paddle = new Paddle(100, 10, 70, 10, 0xFFFFFFFF);
+        paddle = new Paddle(100, height-10, 70, 10, 0xFFFFFFFF);
         this.xPaddle = width/2 - (paddle.getWidth()/2);
         this.yPaddle = height - paddle.getHeight();
         //square2 = new Sprite(32,8,0x00FF00);
     }
 
     private void draw() {
+        Arrays.fill(pixels, 0xFF000000);
+        paddle.draw(pixels, width);
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -102,7 +104,7 @@ public class Graphics extends Canvas implements Runnable {
     }
 
     private void update() {
-        Arrays.fill(pixels, 0xFF000000);
+        paddle.update(width, height);
         // The mario sprite
 
         /* Parametric curve (a circle) see https://en.wikipedia.org/wiki/Parametric_equation
@@ -140,11 +142,11 @@ public class Graphics extends Canvas implements Runnable {
             }
         }
 
-        for (int i = 0; i < paddle.getHeight() ; i++) {
+        /*for (int i = 0; i < paddle.getHeight() ; i++) {
             for (int j = 0; j < paddle.getWidth() ; j++) {
                 pixels[(yPaddle +i)*width + xPaddle +j] = paddle.getPixels()[i* paddle.getWidth()+j];
             }
-        }
+        }*/
 
         // The mouse-controlled square
         /*for (int i = 0 ; i < square2.getHeight() ; i++) {
@@ -205,32 +207,12 @@ public class Graphics extends Canvas implements Runnable {
 
         @Override
         public void keyPressed(KeyEvent keyEvent) {
-            switch (keyEvent.getKeyChar()) {
-                case 'a':
-                    vxPaddle = -5;
-                    break;
-                case 'd':
-                    vxPaddle = 5;
-                    break;
-            }
-            /*if (keyEvent.getKeyChar()=='a') {
-                vxSquare1 = -5;
-            } else if (keyEvent.getKeyChar()=='d') {
-                vxSquare1 = 5;
-            } else if (keyEvent.getKeyChar()=='w') {
-                vySquare1 = -5;
-            } else if (keyEvent.getKeyChar()=='s') {
-                vySquare1 = 5;
-            }*/
+            paddle.keyPressed(keyEvent);
         }
 
         @Override
         public void keyReleased(KeyEvent keyEvent) {
-            if (keyEvent.getKeyChar()=='a' || keyEvent.getKeyChar()=='d') {
-                vxPaddle = 0;
-            } /*else if (keyEvent.getKeyChar()=='w' || keyEvent.getKeyChar()=='s') {
-                vySquare1 = 0;
-            }*/
+            paddle.keyReleased(keyEvent);
         }
     }
 
