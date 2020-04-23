@@ -29,7 +29,8 @@ public class Graphics extends Canvas implements Runnable {
 
     //private Sprite s;
     private Sprite ball;
-    private Sprite paddle;
+    //private Sprite paddle;
+    private Paddle paddle;
     //private Sprite square2;
 
     private double t=0;
@@ -81,7 +82,7 @@ public class Graphics extends Canvas implements Runnable {
             this.vxBall *= -1;
         }
 
-        paddle = new Sprite(100, 10);
+        paddle = new Paddle(100, 10, 70, 10, 0xFFFFFFFF);
         this.xPaddle = width/2 - (paddle.getWidth()/2);
         this.yPaddle = height - paddle.getHeight();
         //square2 = new Sprite(32,8,0x00FF00);
