@@ -52,7 +52,7 @@ public class Ball {
             } else if (getXDirection() < 0 && Math.abs(r.x + r.width - boundingBox.x) <= -getXDirection()) {
                 setXDirection(+1);
             } else if (getYDirection() > 0 && Math.abs(r.y - (boundingBox.y + boundingBox.height)) <= getYDirection()) {
-                setYDirection(-1);
+                setYDirection(-10);
             } else if (getYDirection() < 0 && Math.abs(r.y + r.height - boundingBox.y) <= -getYDirection()) {
                 setYDirection(1);
             }
@@ -60,10 +60,10 @@ public class Ball {
     }
 
     public void move() {
-        yDirection = yDirectionStart + (acceleration * timeSinceBounce);
-        boundingBox.x += xDirection;
+        //yDirection = yDirectionStart + (acceleration * timeSinceBounce);
+        //boundingBox.x += xDirection;
         boundingBox.y += yDirection;
-        System.out.println();
+        //System.out.println();
         //Bounce the ball when edge is detected
         if (boundingBox.x <= 0) {
             setXDirection(+1);
@@ -71,7 +71,7 @@ public class Ball {
         if (boundingBox.x >= 385) {
             setXDirection(-1);
         }
-        if (boundingBox.y <= 0) setYDirection(+1);
+        if (boundingBox.y <= 0) setYDirection(+10);
         if (boundingBox.y >= 285) setYDirection(-10);
     }
 
