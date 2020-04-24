@@ -65,9 +65,9 @@ public class Graphics extends Canvas implements Runnable {
         this.addMouseListener(new MyMouseListener());
         this.requestFocus();
 
-        ball = new Ball(this.width/2-50, 0, 50, 50, 0xFFFFFFFF);
+        ball = new Ball(this.width/2-25, 0, 50, 50, 0xFFFFFFFF);
 
-        paddle = new Paddle(100, height-10, 70, 10, 0xFFFFFFFF);
+        paddle = new Paddle(this.width/2-35, height-10, 70, 10, 0xFFFFFFFF);
     }
 
     private void draw() {
