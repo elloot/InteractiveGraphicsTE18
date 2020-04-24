@@ -12,21 +12,16 @@ public class Ball {
 
         pixels = new int[height*width];
 
-        int thisIsATest = 0;
-
         int[] xCoordinates = new int[width];
         int[] yCoordinates = new int[height];
 
-        for (int i = 0; i < xCoordinates.length; i ++) {
-            if (i < width/2) {
-                xCoordinates[i] = ((xCoordinates.length/2 - i) * -1);
-                yCoordinates[i] = ((yCoordinates.length/2 - i) * -1);
-            } else {
-                xCoordinates[i] = i - ((width/2)-1);
-                yCoordinates[i] = i - ((height/2)-1);
-            }
-        }
+        makeCoordinateSystem(width, height, xCoordinates, yCoordinates);
 
+        circlifySprite(width, height, xCoordinates, yCoordinates);
+    }
+
+    private void circlifySprite(int width, int height, int[] xCoordinates, int[] yCoordinates) {
+        int thisIsATest = 0;
         for (int pixelsY = 0; pixelsY < height; pixelsY++) {
             for (int pixelsX = 0; pixelsX < width; pixelsX++) {
                 for (int k = 0; k < 360; k++){
@@ -61,6 +56,18 @@ public class Ball {
                     }
                 }
                 thisIsATest++;
+            }
+        }
+    }
+
+    private void makeCoordinateSystem(int width, int height, int[] xCoordinates, int[] yCoordinates) {
+        for (int i = 0; i < xCoordinates.length; i ++) {
+            if (i < width/2) {
+                xCoordinates[i] = ((xCoordinates.length/2 - i) * -1);
+                yCoordinates[i] = ((yCoordinates.length/2 - i) * -1);
+            } else {
+                xCoordinates[i] = i - ((width/2)-1);
+                yCoordinates[i] = i - ((height/2)-1);
             }
         }
     }
