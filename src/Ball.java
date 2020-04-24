@@ -1,10 +1,12 @@
 import java.awt.*;
+import java.util.Random;
 
 public class Ball {
-    private int xDirection, yDirection;
+    private int xDirection, yDirection, yDirectionStart;
     private int[] pixels;
     private Rectangle boundingBox;
     private int width, height;
+    private int timeSinceBounce, acceleration;
 
     public Ball (int x, int y, int width, int height, int col) {
         this.width = width;
@@ -18,6 +20,82 @@ public class Ball {
         makeCoordinateSystem(width, height, xCoordinates, yCoordinates);
 
         circlifySprite(width, height, xCoordinates, yCoordinates);
+
+        boundingBox = new Rectangle(x, y, width, height);
+
+        Random r = new Random();
+        int rDir = r.nextInt(1);
+        if (rDir == 0)
+            rDir--;
+        setXDirection(rDir);
+
+        timeSinceBounce = 0;
+        acceleration = 1;
+        yDirectionStart = 1;
+    }
+
+    public void draw(int[] Screen, int screenWidth) {
+        for (int i = 0 ; i < height ; i++) {
+            for (int j = 0 ; j < width ; j++) {
+                Screen[(boundingBox.y+i)*screenWidth + boundingBox.x+j] = pixels[i*width+j];
+            }
+        }
+    }
+
+    public void collision(Rectangle r){
+        if(boundingBox.intersects(r)) {
+            timeSinceBounce = 0;
+            yDirection = -10;
+            yDirectionStart = yDirection;
+            if (getXDirection() > 0 && Math.abs(r.x - (boundingBox.x + boundingBox.width)) <= getXDirection()) {
+                setXDirection(-1);
+            } else if (getXDirection() < 0 && Math.abs(r.x + r.width - boundingBox.x) <= -getXDirection()) {
+                setXDirection(+1);
+            } else if (getYDirection() > 0 && Math.abs(r.y - (boundingBox.y + boundingBox.height)) <= getYDirection()) {
+                setYDirection(-1);
+            } else if (getYDirection() < 0 && Math.abs(r.y + r.height - boundingBox.y) <= -getYDirection()) {
+                setYDirection(1);
+            }
+        }
+    }
+
+    public void move() {
+        yDirection = yDirectionStart + (acceleration * timeSinceBounce);
+        boundingBox.x += xDirection;
+        boundingBox.y += yDirection;
+        System.out.println();
+        //Bounce the ball when edge is detected
+        if (boundingBox.x <= 0) {
+            setXDirection(+1);
+        }
+        if (boundingBox.x >= 385) {
+            setXDirection(-1);
+        }
+        if (boundingBox.y <= 0) setYDirection(+1);
+        if (boundingBox.y >= 285) setYDirection(-10);
+    }
+
+    public void update(Rectangle r) {
+        collision(r);
+        timeSinceBounce++;
+        move();
+        collision(r);
+    }
+
+    public void setXDirection(int xDir) {
+        xDirection = xDir;
+    }
+
+    public void setYDirection(int yDir) {
+        yDirection = yDir;
+    }
+
+    public int getXDirection() {
+        return xDirection;
+    }
+
+    public int getYDirection() {
+        return  yDirection;
     }
 
     private void circlifySprite(int width, int height, int[] xCoordinates, int[] yCoordinates) {

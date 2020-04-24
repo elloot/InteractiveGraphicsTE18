@@ -28,7 +28,8 @@ public class Graphics extends Canvas implements Runnable {
     private int ups = 30;
 
     //private Sprite s;
-    private Sprite ball;
+    //private Sprite ball;
+    private Ball ball;
     //private Sprite paddle;
     private Paddle paddle;
     //private Sprite square2;
@@ -64,19 +65,17 @@ public class Graphics extends Canvas implements Runnable {
         this.addMouseListener(new MyMouseListener());
         this.requestFocus();
 
-        ball = new Sprite(50, 50);
-        this.xBall = width/2 - (ball.getWidth()/2);
-        this.vxBall = 3*Math.random();
-        if (Math.random() < 0.5) {
-            this.vxBall *= -1;
-        }
+        ball = new Ball(this.width/2-50, 0, 50, 50, 0xFFFFFFFF);
 
         paddle = new Paddle(100, height-10, 70, 10, 0xFFFFFFFF);
     }
 
     private void draw() {
         Arrays.fill(pixels, 0xFF000000);
+
         paddle.draw(pixels, width);
+        ball.draw(pixels, width);
+
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -90,6 +89,7 @@ public class Graphics extends Canvas implements Runnable {
     }
 
     private void update() {
+        ball.update(paddle.getBoundingBox());
         paddle.update(width, height);
 
         //change y-velocity with acceleration and time
@@ -97,20 +97,13 @@ public class Graphics extends Canvas implements Runnable {
         timeSinceBounce++;
 
         // The moving magenta square
-        if (xBall + vxBall < 0 || xBall + vxBall > width - ball.getWidth())
+        /*if (xBall + vxBall < 0 || xBall + vxBall > width - ball.getWidth())
             vxBall = 0;
         if (yBall + vyBall < 0 || yBall + vyBall > height - ball.getHeight())
             vyBall = 0;
 
         xBall += vxBall;
-        yBall += vyBall;
-
-        for (int i = 0; i < ball.getHeight() ; i++) {
-            for (int j = 0; j < ball.getWidth() ; j++) {
-                pixels[(yBall +i)*width + xBall +j] = ball.getPixels()[i* ball.getWidth()+j];
-            }
-        }
-
+        yBall += vyBall;*/
     }
 
     public synchronized void start() {
