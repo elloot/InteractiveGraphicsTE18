@@ -44,9 +44,7 @@ public class Ball {
 
     public void collision(Rectangle r){
         if(boundingBox.intersects(r)) {
-            timeSinceBounce = 0;
-            yDirection = -10;
-            yDirectionStart = yDirection;
+            System.out.println(r.y + "   ,   " + (boundingBox.y+boundingBox.height));
             if (getXDirection() > 0 && Math.abs(r.x - (boundingBox.x + boundingBox.width)) <= getXDirection()) {
                 setXDirection(-1);
             } else if (getXDirection() < 0 && Math.abs(r.x + r.width - boundingBox.x) <= -getXDirection()) {
@@ -56,11 +54,15 @@ public class Ball {
             } else if (getYDirection() < 0 && Math.abs(r.y + r.height - boundingBox.y) <= -getYDirection()) {
                 setYDirection(1);
             }
+            timeSinceBounce = 0;
+            yDirectionStart = getYDirection();
         }
     }
 
-    public void move() {
-        //yDirection = yDirectionStart + (acceleration * timeSinceBounce);
+    public void move(Rectangle r) {
+        isColliding(r);
+        yDirection = yDirectionStart + (acceleration * timeSinceBounce);
+        //System.out.println(getYDirection());
         //boundingBox.x += xDirection;
         boundingBox.y += yDirection;
         //System.out.println();
@@ -75,10 +77,21 @@ public class Ball {
         if (boundingBox.y >= 285) setYDirection(-10);
     }
 
+    private void isColliding(Rectangle r) {
+        if (boundingBox.y + boundingBox.height + yDirection >= r.y) {
+            if (boundingBox.x + boundingBox.width >= r.x || boundingBox.x < r.x + r.width) {
+                boundingBox.y = r.y - boundingBox.height;
+                timeSinceBounce = 0;
+                setYDirection(-10);
+                yDirectionStart = getYDirection();
+            }
+        }
+    }
+
     public void update(Rectangle r) {
         collision(r);
         timeSinceBounce++;
-        move();
+        move(r);
         collision(r);
     }
 
