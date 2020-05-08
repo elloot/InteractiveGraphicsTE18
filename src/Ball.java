@@ -7,6 +7,7 @@ public class Ball {
     private Rectangle boundingBox;
     private int width, height;
     private int timeSinceBounce, acceleration;
+    public boolean stopGame;
 
     public Ball (int x, int y, int width, int height, int col) {
         this.width = width;
@@ -32,6 +33,8 @@ public class Ball {
         timeSinceBounce = 0;
         acceleration = 1;
         yDirectionStart = 1;
+
+        stopGame = false;
     }
 
     public void draw(int[] Screen, int screenWidth) {
@@ -60,7 +63,16 @@ public class Ball {
     }
 
     public void move(Rectangle r) {
-        isColliding(r);
+        if (shouldBounce(r)) {
+            if (isColliding(r)) {
+                boundingBox.y = r.y - boundingBox.height;
+                timeSinceBounce = 0;
+                setYDirection(-10);
+                yDirectionStart = getYDirection();
+            } else {
+                stopGame();
+            }
+        }
         yDirection = yDirectionStart + (acceleration * timeSinceBounce);
         //System.out.println(getYDirection());
         //boundingBox.x += xDirection;
@@ -77,15 +89,16 @@ public class Ball {
         if (boundingBox.y >= 285) setYDirection(-10);
     }
 
-    private void isColliding(Rectangle r) {
-        if (boundingBox.y + boundingBox.height + yDirection >= r.y) {
-            if (boundingBox.x + boundingBox.width >= r.x || boundingBox.x < r.x + r.width) {
-                boundingBox.y = r.y - boundingBox.height;
-                timeSinceBounce = 0;
-                setYDirection(-10);
-                yDirectionStart = getYDirection();
-            }
-        }
+    private boolean isColliding(Rectangle r) {
+        return boundingBox.x + boundingBox.width >= r.x && boundingBox.x <= r.x + r.width;
+    }
+
+    private boolean shouldBounce(Rectangle r) {
+        return boundingBox.y + boundingBox.height + yDirection >= r.y;
+    }
+
+    private void stopGame() {
+        stopGame = true;
     }
 
     public void update(Rectangle r) {
