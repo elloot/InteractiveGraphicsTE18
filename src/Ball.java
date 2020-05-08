@@ -42,7 +42,10 @@ public class Ball {
     public void draw(int[] Screen, int screenWidth) {
         for (int i = 0 ; i < height ; i++) {
             for (int j = 0 ; j < width ; j++) {
-                Screen[(boundingBox.y+i)*screenWidth + boundingBox.x+j] = pixels[i*width+j];
+                //if pixel isn't transparent, draw it, else don't draw it
+                if ((pixels[i*width+j]>>24) != 0x00) {
+                    Screen[(boundingBox.y + i) * screenWidth + boundingBox.x + j] = pixels[i * width + j];
+                }
             }
         }
     }
