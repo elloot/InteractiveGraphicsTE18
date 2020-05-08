@@ -13,22 +13,20 @@ import java.util.Arrays;
  * @author Magnus Silverdal
  */
 public class Graphics extends Canvas implements Runnable {
-    private String title = "Graphics";
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
-    private JFrame frame;
-    private BufferedImage image;
-    private int[] pixels;
+    private final BufferedImage image;
+    private final int[] pixels;
     private int scale;
 
     private Thread thread;
     private boolean running = false;
-    private int fps = 60;
-    private int ups = 30;
+    private final int fps = 60;
+    private final int ups = 30;
 
-    private Ball ball;
-    private Paddle paddle;
+    private final Ball ball;
+    private final Paddle paddle;
 
     public Graphics(int w, int h, int scale) {
         this.width = w;
@@ -39,7 +37,8 @@ public class Graphics extends Canvas implements Runnable {
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         Dimension size = new Dimension(scale*width, scale*height);
         setPreferredSize(size);
-        frame = new JFrame();
+        JFrame frame = new JFrame();
+        String title = "Graphics";
         frame.setTitle(title);
         frame.add(this);
         frame.pack();
