@@ -3,10 +3,12 @@ import java.util.Random;
 
 public class Ball {
     private int xDirection, yDirection, yDirectionStart;
-    private int[] pixels;
-    private Rectangle boundingBox;
-    private int width, height;
-    private int timeSinceBounce, acceleration;
+    private final int[] pixels;
+    private final Rectangle boundingBox;
+    private final int width;
+    private final int height;
+    private int timeSinceBounce;
+    private final int acceleration;
     public boolean stopGame;
 
     public Ball (int x, int y, int width, int height, int col) {
