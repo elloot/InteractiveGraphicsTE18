@@ -62,7 +62,6 @@ public class Graphics extends Canvas implements Runnable {
         frame.setVisible(true);
 
         this.addKeyListener(new MyKeyListener());
-        this.addMouseListener(new MyMouseListener());
         this.requestFocus();
 
         ball = new Ball(this.width/2-25, 0, 50, 50, 0xFFFFFFFF);
@@ -94,19 +93,6 @@ public class Graphics extends Canvas implements Runnable {
             stop();
         }
         paddle.update(width, height);
-
-        //change y-velocity with acceleration and time
-        vyBall = vyBallStart + (acceleration* timeSinceBounce);
-        timeSinceBounce++;
-
-        // The moving magenta square
-        /*if (xBall + vxBall < 0 || xBall + vxBall > width - ball.getWidth())
-            vxBall = 0;
-        if (yBall + vyBall < 0 || yBall + vyBall > height - ball.getHeight())
-            vyBall = 0;
-
-        xBall += vxBall;
-        yBall += vyBall;*/
     }
 
     public synchronized void start() {
@@ -165,32 +151,6 @@ public class Graphics extends Canvas implements Runnable {
         @Override
         public void keyReleased(KeyEvent keyEvent) {
             paddle.keyReleased(keyEvent);
-        }
-    }
-
-    private class MyMouseListener implements MouseListener {
-        @Override
-        public void mouseClicked(MouseEvent mouseEvent) {
-        }
-
-        @Override
-        public void mousePressed(MouseEvent mouseEvent) {
-            vyBall = -10;
-            vyBallStart = vyBall;
-            timeSinceBounce = 0;
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent mouseEvent) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent mouseEvent) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent mouseEvent) {
         }
     }
 }
