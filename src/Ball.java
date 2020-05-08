@@ -47,23 +47,6 @@ public class Ball {
         }
     }
 
-    public void collision(Rectangle r){
-        if(boundingBox.intersects(r)) {
-            System.out.println(r.y + "   ,   " + (boundingBox.y+boundingBox.height));
-            if (getXDirection() > 0 && Math.abs(r.x - (boundingBox.x + boundingBox.width)) <= getXDirection()) {
-                setXDirection(-1);
-            } else if (getXDirection() < 0 && Math.abs(r.x + r.width - boundingBox.x) <= -getXDirection()) {
-                setXDirection(+1);
-            } else if (getYDirection() > 0 && Math.abs(r.y - (boundingBox.y + boundingBox.height)) <= getYDirection()) {
-                setYDirection(-10);
-            } else if (getYDirection() < 0 && Math.abs(r.y + r.height - boundingBox.y) <= -getYDirection()) {
-                setYDirection(1);
-            }
-            timeSinceBounce = 0;
-            yDirectionStart = getYDirection();
-        }
-    }
-
     public void move(Rectangle r) {
         if (shouldBounce(r)) {
             if (isColliding(r)) {
@@ -76,10 +59,10 @@ public class Ball {
             }
         }
         yDirection = yDirectionStart + (acceleration * timeSinceBounce);
-        //System.out.println(getYDirection());
+
         //boundingBox.x += xDirection;
         boundingBox.y += yDirection;
-        //System.out.println();
+
         //Bounce the ball when edge is detected
         if (boundingBox.x <= 0) {
             setXDirection(+1);
@@ -104,10 +87,8 @@ public class Ball {
     }
 
     public void update(Rectangle r) {
-        collision(r);
         timeSinceBounce++;
         move(r);
-        collision(r);
     }
 
     public void setXDirection(int xDir) {
