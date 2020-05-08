@@ -55,7 +55,7 @@ public class Ball {
             if (isColliding(r)) {
                 boundingBox.y = r.y - boundingBox.height;
                 timeSinceBounce = 0;
-                setYDirection(-10);
+                setYDirection(-18);
                 yDirectionStart = getYDirection();
             } else {
                 stopGame();
