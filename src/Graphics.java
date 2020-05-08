@@ -32,14 +32,18 @@ public class Graphics extends Canvas implements Runnable {
         this.width = w;
         this.height = h;
         this.scale = scale;
-        //image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+
         image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+
         Dimension size = new Dimension(scale*width, scale*height);
         setPreferredSize(size);
+
         JFrame frame = new JFrame();
+
         String title = "Graphics";
         frame.setTitle(title);
+
         frame.add(this);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
