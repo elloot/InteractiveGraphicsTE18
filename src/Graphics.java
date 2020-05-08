@@ -90,6 +90,9 @@ public class Graphics extends Canvas implements Runnable {
 
     private void update() {
         ball.update(paddle.getBoundingBox());
+        if (ball.stopGame) {
+            stop();
+        }
         paddle.update(width, height);
 
         //change y-velocity with acceleration and time
