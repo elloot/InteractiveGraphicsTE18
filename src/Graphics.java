@@ -27,22 +27,8 @@ public class Graphics extends Canvas implements Runnable {
     private int fps = 60;
     private int ups = 30;
 
-    //private Sprite s;
-    //private Sprite ball;
     private Ball ball;
-    //private Sprite paddle;
     private Paddle paddle;
-    //private Sprite square2;
-
-    private double t=0;
-    private int xBall = 0;
-    private int yBall = 0;
-    private double vxBall = 0;
-    private double vyBall = 0;
-
-    private int timeSinceBounce = 0;
-    private double acceleration = 1;
-    private double vyBallStart = 0;
 
     public Graphics(int w, int h, int scale) {
         this.width = w;
