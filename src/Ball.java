@@ -50,9 +50,11 @@ public class Ball {
         }
     }
 
-    public void move(Rectangle r) {
+    public void move(Rectangle r, int screenWidth, int screenHeight) {
         if (shouldBounce(r)) {
             if (isColliding(r)) {
+                setXDirection(((boundingBox.x + (boundingBox.width/2)) - (r.x + (r.width/2)))/(boundingBox.width/16));
+
                 boundingBox.y = r.y - boundingBox.height;
                 timeSinceBounce = 0;
                 setYDirection(-18);
@@ -63,18 +65,27 @@ public class Ball {
         }
         yDirection = yDirectionStart + (acceleration * timeSinceBounce);
 
-        //boundingBox.x += xDirection;
+        if (boundingBox.x + xDirection <= 0) {
+            boundingBox.x = 0;
+            setXDirection((int)(-0.6*xDirection));
+        }
+        if (boundingBox.x + boundingBox.width + xDirection >= screenWidth) {
+            boundingBox.x = screenWidth - boundingBox.width;
+            setXDirection((int)(-0.6*xDirection));
+        }
+
+        boundingBox.x += xDirection;
         boundingBox.y += yDirection;
 
         //Bounce the ball when edge is detected
-        if (boundingBox.x <= 0) {
+        /*if (boundingBox.x <= 0) {
             setXDirection(+1);
         }
         if (boundingBox.x >= 385) {
             setXDirection(-1);
-        }
-        if (boundingBox.y <= 0) setYDirection(+10);
-        if (boundingBox.y >= 285) setYDirection(-10);
+        }*/
+        //if (boundingBox.y <= 0) setYDirection(+10);
+        //if (boundingBox.y >= 285) setYDirection(-10);
     }
 
     private boolean isColliding(Rectangle r) {
@@ -89,9 +100,9 @@ public class Ball {
         stopGame = true;
     }
 
-    public void update(Rectangle r) {
+    public void update(Rectangle r, int screenWidth, int screenHeight) {
         timeSinceBounce++;
-        move(r);
+        move(r, screenWidth, screenHeight);
     }
 
     public void setXDirection(int xDir) {
