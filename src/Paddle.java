@@ -20,10 +20,10 @@ public class Paddle {
 
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyChar() == 'a') {
-            setXDirection(-1);
+            setXDirection(-8);
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyChar() == 'd') {
-            setXDirection(1);
+            setXDirection(8);
         }
     }
 
