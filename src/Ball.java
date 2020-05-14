@@ -53,7 +53,7 @@ public class Ball {
     public void move(Rectangle r, int screenWidth, int screenHeight) {
         if (shouldBounce(r)) {
             if (isColliding(r)) {
-                setXDirection(((boundingBox.x + (boundingBox.width/2)) - (r.x + (r.width/2)))/(boundingBox.width/16));
+                setXDirection(paddleXBounce(r));
 
                 boundingBox.y = r.y - boundingBox.height;
                 timeSinceBounce = 0;
@@ -86,6 +86,11 @@ public class Ball {
         }*/
         //if (boundingBox.y <= 0) setYDirection(+10);
         //if (boundingBox.y >= 285) setYDirection(-10);
+    }
+
+    private int paddleXBounce(Rectangle r) {
+        // returns an x-velocity depending on how the ball hits the paddle
+        return (boundingBox.x + boundingBox.width/2 - r.x - r.width/2)/(boundingBox.width/16);
     }
 
     private boolean isColliding(Rectangle r) {
