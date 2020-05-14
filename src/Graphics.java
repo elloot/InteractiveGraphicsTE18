@@ -77,7 +77,7 @@ public class Graphics extends Canvas implements Runnable {
     }
 
     private void update() {
-        ball.update(paddle.getBoundingBox());
+        ball.update(paddle.getBoundingBox(), width, height);
         if (ball.stopGame) {
             stop();
         }
