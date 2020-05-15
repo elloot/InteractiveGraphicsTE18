@@ -53,7 +53,7 @@ public class Graphics extends Canvas implements Runnable {
         this.addKeyListener(new MyKeyListener());
         this.requestFocus();
 
-        ball = new Ball(this.width/2-25, 0, 50, 50, 0xFFFFFFFF);
+        ball = new Ball(this.width/2-25, 0, 24, 24, 0xFFFFFFFF);
 
         paddle = new Paddle(this.width/2-35, height-10, 70, 10, 0xFFFFFFFF);
     }
