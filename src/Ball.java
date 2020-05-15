@@ -10,6 +10,7 @@ public class Ball {
     private int timeSinceBounce;
     private final int acceleration;
     public boolean stopGame;
+    private int[] xCoordinates, yCoordinates;
 
     public Ball (int x, int y, int width, int height, int col) {
         this.width = width;
@@ -18,11 +19,14 @@ public class Ball {
         pixels = new int[height*width];
 
         int[] xCoordinates = new int[width];
+        this.xCoordinates = xCoordinates;
         int[] yCoordinates = new int[height];
+        this.yCoordinates = yCoordinates;
 
-        makeCoordinateSystem(width, height, xCoordinates, yCoordinates);
+        makeCoordinateSystem();
 
-        circlifySprite(width, height, xCoordinates, yCoordinates);
+        //circlifySprite(width, height, xCoordinates, yCoordinates);
+        makeCircle();
 
         boundingBox = new Rectangle(x, y, width, height);
 
@@ -30,7 +34,8 @@ public class Ball {
         int rDir = r.nextInt(1);
         if (rDir == 0)
             rDir--;
-        setXDirection(rDir);
+        setXDirection(0);
+        //setXDirection(rDir);
 
         timeSinceBounce = 0;
         acceleration = 1;
@@ -51,6 +56,7 @@ public class Ball {
     }
 
     public void move(Rectangle r, int screenWidth, int screenHeight) {
+        goodDetect(r);
         if (shouldBounce(r)) {
             if (isColliding(r)) {
                 setXDirection(paddleXBounce(r));
@@ -86,6 +92,18 @@ public class Ball {
         }*/
         //if (boundingBox.y <= 0) setYDirection(+10);
         //if (boundingBox.y >= 285) setYDirection(-10);
+    }
+
+    private void goodDetect(Rectangle r) {
+        int radius = width/2;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (xCoordinates[x]*xCoordinates[x] + yCoordinates[y]*yCoordinates[y] <= radius*radius) {
+                    if ((boundingBox.y + height + yCoordinates[y] + yDirection >= r.y) && (boundingBox.x + width/2 + xCoordinates[x] >= r.x && r.x + r.width <= boundingBox.x + width/2 + xCoordinates[x])) System.out.println("collision");
+                }
+            }
+        }
     }
 
     private int paddleXBounce(Rectangle r) {
@@ -166,7 +184,21 @@ public class Ball {
         }
     }
 
-    private void makeCoordinateSystem(int width, int height, int[] xCoordinates, int[] yCoordinates) {
+    private void makeCircle() {
+        int radius = width/2;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (xCoordinates[x]*xCoordinates[x] + yCoordinates[y]*yCoordinates[y] <= radius*radius) {
+                    pixels[y*width + x] = 0xFFFF00FF;
+                } else {
+                    pixels[y*width + x] = 0x00000000;
+                }
+            }
+        }
+    }
+
+    private void makeCoordinateSystem() {
         for (int i = 0; i < xCoordinates.length; i ++) {
             if (i < width/2) {
                 xCoordinates[i] = ((xCoordinates.length/2 - i) * -1);
