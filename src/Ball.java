@@ -10,7 +10,8 @@ public class Ball {
     private int timeSinceBounce;
     private final int acceleration;
     public boolean stopGame;
-    private int[] xCoordinates, yCoordinates;
+    private final int[] xCoordinates;
+    private final int[] yCoordinates;
 
     public Ball (int x, int y, int width, int height, int col) {
         this.width = width;
@@ -18,24 +19,18 @@ public class Ball {
 
         pixels = new int[height*width];
 
-        int[] xCoordinates = new int[width];
-        this.xCoordinates = xCoordinates;
-        int[] yCoordinates = new int[height];
-        this.yCoordinates = yCoordinates;
+        this.xCoordinates = new int [width];
+        this.yCoordinates = new int[height];
 
         makeCoordinateSystem();
-
-        //circlifySprite(width, height, xCoordinates, yCoordinates);
         makeCircle();
 
         boundingBox = new Rectangle(x, y, width, height);
 
         Random r = new Random();
         int rDir = r.nextInt(1);
-        if (rDir == 0)
-            rDir--;
-        setXDirection(0);
-        //setXDirection(rDir);
+        if (rDir == 0) rDir--;
+        setXDirection(rDir);
 
         timeSinceBounce = 0;
         acceleration = 1;
@@ -56,7 +51,6 @@ public class Ball {
     }
 
     public void move(Rectangle r, int screenWidth, int screenHeight) {
-        goodDetect(r);
         if (shouldBounce(r)) {
             if (isColliding(r)) {
                 setXDirection(paddleXBounce(r));
@@ -82,28 +76,6 @@ public class Ball {
 
         boundingBox.x += xDirection;
         boundingBox.y += yDirection;
-
-        //Bounce the ball when edge is detected
-        /*if (boundingBox.x <= 0) {
-            setXDirection(+1);
-        }
-        if (boundingBox.x >= 385) {
-            setXDirection(-1);
-        }*/
-        //if (boundingBox.y <= 0) setYDirection(+10);
-        //if (boundingBox.y >= 285) setYDirection(-10);
-    }
-
-    private void goodDetect(Rectangle r) {
-        int radius = width/2;
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (xCoordinates[x]*xCoordinates[x] + yCoordinates[y]*yCoordinates[y] <= radius*radius) {
-                    if ((boundingBox.y + height + yCoordinates[y] + yDirection >= r.y) && (boundingBox.x + width/2 + xCoordinates[x] >= r.x && r.x + r.width <= boundingBox.x + width/2 + xCoordinates[x])) System.out.println("collision");
-                }
-            }
-        }
     }
 
     private int paddleXBounce(Rectangle r) {
@@ -142,46 +114,6 @@ public class Ball {
 
     public int getYDirection() {
         return  yDirection;
-    }
-
-    private void circlifySprite(int width, int height, int[] xCoordinates, int[] yCoordinates) {
-        int thisIsATest = 0;
-        for (int pixelsY = 0; pixelsY < height; pixelsY++) {
-            for (int pixelsX = 0; pixelsX < width; pixelsX++) {
-                for (int k = 0; k < 360; k++){
-                    if (Math.signum(xCoordinates[pixelsX]) == -1 && Math.signum(yCoordinates[pixelsY]) == 1) {
-                        if (xCoordinates[pixelsX] >= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[pixelsY] <= (Math.sin(Math.toRadians(k))*(height/2))) {
-                            pixels[thisIsATest] = 0xFFFF00FF;
-                            break;
-                        } else {
-                            pixels[thisIsATest] = 0x00000000;
-                        }
-                    } else if (Math.signum(xCoordinates[pixelsX]) == 1 && Math.signum(yCoordinates[pixelsY]) == 1) {
-                        if (xCoordinates[pixelsX] <= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[pixelsY] <= (Math.sin(Math.toRadians(k))*(height/2))) {
-                            pixels[thisIsATest] = 0xFFFF00FF;
-                            break;
-                        } else {
-                            pixels[thisIsATest] = 0x00000000;
-                        }
-                    } else if (Math.signum(xCoordinates[pixelsX]) == -1 && Math.signum(yCoordinates[pixelsY]) == -1) {
-                        if (xCoordinates[pixelsX] >= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[pixelsY] >= (Math.sin(Math.toRadians(k))*(height/2))) {
-                            pixels[thisIsATest] = 0xFFFF00FF;
-                            break;
-                        } else {
-                            pixels[thisIsATest] = 0x00000000;
-                        }
-                    } else if (Math.signum(xCoordinates[pixelsX]) == 1 && Math.signum(yCoordinates[pixelsY]) == -1) {
-                        if (xCoordinates[pixelsX] <= (Math.cos(Math.toRadians(k))*(width/2)) && yCoordinates[pixelsY] >= (Math.sin(Math.toRadians(k))*(height/2))) {
-                            pixels[thisIsATest] = 0xFFFF00FF;
-                            break;
-                        } else {
-                            pixels[thisIsATest] = 0x00000000;
-                        }
-                    }
-                }
-                thisIsATest++;
-            }
-        }
     }
 
     private void makeCircle() {
