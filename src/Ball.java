@@ -12,10 +12,13 @@ public class Ball {
     public boolean stopGame;
     private final int[] xCoordinates;
     private final int[] yCoordinates;
+    private final int col;
 
     public Ball (int x, int y, int width, int height, int col) {
         this.width = width;
         this.height = height;
+
+        this.col = col;
 
         pixels = new int[height*width];
 
@@ -130,7 +133,7 @@ public class Ball {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (xCoordinates[x]*xCoordinates[x] + yCoordinates[y]*yCoordinates[y] <= radius*radius) {
-                    pixels[y*width + x] = 0xFFFF00FF;
+                    pixels[y*width + x] = col;
                 } else {
                     pixels[y*width + x] = 0x00000000;
                 }
