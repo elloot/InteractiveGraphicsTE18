@@ -5,10 +5,10 @@ import java.util.Arrays;
 public class Paddle {
     private int xDirection;
     private int yDirection;
-    private int[] pixels;
-    private Rectangle boundingBox;
-    private int width;
-    private int height;
+    private final int[] pixels;
+    private final Rectangle boundingBox;
+    private final int width;
+    private final int height;
 
     public Paddle (int x, int y, int width, int height, int col) {
         this.width = width;
