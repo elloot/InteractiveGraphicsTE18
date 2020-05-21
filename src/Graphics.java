@@ -37,7 +37,7 @@ public class Graphics extends Canvas implements Runnable {
 
         JFrame frame = new JFrame();
 
-        String title = "Graphics";
+        String title = "Bounce-a-ball";
         frame.setTitle(title);
 
         frame.add(this);
