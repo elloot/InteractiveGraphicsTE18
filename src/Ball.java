@@ -14,15 +14,15 @@ public class Ball {
     private final int[] yCoordinates;
     private final int col;
 
-    public Ball (int x, int y, int width, int height, int col) {
+    public Ball(int x, int y, int width, int height, int col) {
         this.width = width;
         this.height = height;
 
         this.col = col;
 
-        pixels = new int[height*width];
+        pixels = new int[height * width];
 
-        this.xCoordinates = new int [width];
+        this.xCoordinates = new int[width];
         this.yCoordinates = new int[height];
 
         // makes all the pixels that don't fit within the circle's equation transparent
@@ -46,10 +46,10 @@ public class Ball {
     }
 
     public void draw(int[] Screen, int screenWidth) {
-        for (int i = 0 ; i < height ; i++) {
-            for (int j = 0 ; j < width ; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 //if pixel isn't transparent, draw it, else don't draw it
-                if ((pixels[i*width+j]>>24) != 0x00) {
+                if ((pixels[i * width + j] >> 24) != 0x00) {
                     Screen[(boundingBox.y + i) * screenWidth + boundingBox.x + j] = pixels[i * width + j];
                 }
             }
@@ -79,11 +79,11 @@ public class Ball {
         // bounces the ball on the edges of the screen
         if (boundingBox.x + xDirection <= 0) {
             boundingBox.x = 0;
-            setXDirection((int)(-0.6*xDirection));
+            setXDirection((int) (-0.6 * xDirection));
         }
         if (boundingBox.x + boundingBox.width + xDirection >= screenWidth) {
             boundingBox.x = screenWidth - boundingBox.width;
-            setXDirection((int)(-0.6*xDirection));
+            setXDirection((int) (-0.6 * xDirection));
         }
 
         boundingBox.x += xDirection;
@@ -91,7 +91,7 @@ public class Ball {
     }
 
     private int paddleXBounce(Rectangle r) {
-        return (boundingBox.x + boundingBox.width/2 - r.x - r.width/2)/(boundingBox.width/16);
+        return (boundingBox.x + boundingBox.width / 2 - r.x - r.width / 2) / (boundingBox.width / 16);
     }
 
     private boolean isColliding(Rectangle r) {
@@ -124,18 +124,18 @@ public class Ball {
     }
 
     public int getYDirection() {
-        return  yDirection;
+        return yDirection;
     }
 
     private void makeCircle() {
-        int radius = width/2;
+        int radius = width / 2;
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (xCoordinates[x]*xCoordinates[x] + yCoordinates[y]*yCoordinates[y] <= radius*radius) {
-                    pixels[y*width + x] = col;
+                if (xCoordinates[x] * xCoordinates[x] + yCoordinates[y] * yCoordinates[y] <= radius * radius) {
+                    pixels[y * width + x] = col;
                 } else {
-                    pixels[y*width + x] = 0x00000000;
+                    pixels[y * width + x] = 0x00000000;
                 }
             }
         }
@@ -143,13 +143,13 @@ public class Ball {
 
     private void makeCoordinateSystem() {
         // creates a coordinate system used for making the ball's sprite circular
-        for (int i = 0; i < xCoordinates.length; i ++) {
-            if (i < width/2) {
-                xCoordinates[i] = ((xCoordinates.length/2 - i) * -1);
-                yCoordinates[i] = ((yCoordinates.length/2 - i) * -1);
+        for (int i = 0; i < xCoordinates.length; i++) {
+            if (i < width / 2) {
+                xCoordinates[i] = ((xCoordinates.length / 2 - i) * -1);
+                yCoordinates[i] = ((yCoordinates.length / 2 - i) * -1);
             } else {
-                xCoordinates[i] = i - ((width/2)-1);
-                yCoordinates[i] = i - ((height/2)-1);
+                xCoordinates[i] = i - ((width / 2) - 1);
+                yCoordinates[i] = i - ((height / 2) - 1);
             }
         }
     }

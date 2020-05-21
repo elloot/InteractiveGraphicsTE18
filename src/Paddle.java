@@ -9,7 +9,7 @@ public class Paddle {
     private final int width;
     private final int height;
 
-    public Paddle (int x, int y, int width, int height, int col) {
+    public Paddle(int x, int y, int width, int height, int col) {
         this.width = width;
         this.height = height;
 
@@ -20,7 +20,7 @@ public class Paddle {
     }
 
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyChar() == 'a') {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyChar() == 'a') {
             setXDirection(-10);
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyChar() == 'd') {
@@ -28,11 +28,11 @@ public class Paddle {
         }
     }
 
-    public void keyReleased(KeyEvent e){
-        if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyChar() == 'a'){
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyChar() == 'a') {
             setXDirection(0);
         }
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyChar() == 'd'){
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyChar() == 'd') {
             setXDirection(0);
         }
     }
@@ -41,22 +41,22 @@ public class Paddle {
         return boundingBox;
     }
 
-    public void update(int width, int height){
+    public void update(int width, int height) {
         boundingBox.x += xDirection;
 
         // stops the paddle from going outside of the screen
-        if(boundingBox.x <= 0) {
+        if (boundingBox.x <= 0) {
             boundingBox.x = 0;
         }
-        if(boundingBox.x >= width-boundingBox.width) {
-            boundingBox.x = width-boundingBox.width;
+        if (boundingBox.x >= width - boundingBox.width) {
+            boundingBox.x = width - boundingBox.width;
         }
     }
 
-    public void draw(int[] Screen, int screenWidth){
-        for (int i = 0 ; i < height ; i++) {
-            for (int j = 0 ; j < width ; j++) {
-                Screen[(boundingBox.y+i)*screenWidth + boundingBox.x+j] = pixels[i*width+j];
+    public void draw(int[] Screen, int screenWidth) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                Screen[(boundingBox.y + i) * screenWidth + boundingBox.x + j] = pixels[i * width + j];
             }
         }
     }
