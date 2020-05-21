@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class Paddle {
     private int xDirection;
-    private int yDirection;
     private final int[] pixels;
     private final Rectangle boundingBox;
     private final int width;
