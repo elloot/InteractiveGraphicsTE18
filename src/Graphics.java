@@ -18,12 +18,9 @@ public class Graphics extends Canvas implements Runnable {
 
     private final BufferedImage image;
     private final int[] pixels;
-    private int scale;
 
     private Thread thread;
     private boolean running = false;
-    private final int fps = 60;
-    private final int ups = 30;
 
     private final Ball ball;
     private final Paddle paddle;
@@ -31,7 +28,6 @@ public class Graphics extends Canvas implements Runnable {
     public Graphics(int w, int h, int scale) {
         this.width = w;
         this.height = h;
-        this.scale = scale;
 
         image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -101,7 +97,9 @@ public class Graphics extends Canvas implements Runnable {
 
     @Override
     public void run() {
+        int fps = 60;
         double frameUpdateinteval = 1000000000.0 / fps;
+        int ups = 30;
         double stateUpdateinteval = 1000000000.0 / ups;
         double deltaFrame = 0;
         double deltaUpdate = 0;
