@@ -22,6 +22,7 @@ public class Ball {
         this.xCoordinates = new int [width];
         this.yCoordinates = new int[height];
 
+        // makes all the pixels that don't fit within the circle's equation transparent
         makeCoordinateSystem();
         makeCircle();
 
@@ -32,6 +33,8 @@ public class Ball {
         if (rDir == 0) rDir--;
         setXDirection(rDir);
 
+        // these variables make gravity work, keeps track of how long the acceleration has been affecting the ball
+        // as well as what the ball's velocity was when its movement started
         timeSinceBounce = 0;
         acceleration = 1;
         yDirectionStart = 1;
@@ -51,10 +54,14 @@ public class Ball {
     }
 
     public void move(Rectangle r, int screenWidth, int screenHeight) {
+        // checks if the ball is going to end up below the paddle when it is moved
         if (shouldBounce(r)) {
+            // checks if the ball is able to bounce on the paddle
             if (isColliding(r)) {
+                // determines ball's x-velocity depending on where it touched the paddle
                 setXDirection(paddleXBounce(r));
 
+                // resets the acceleration's effect on the ball and bounces it upward
                 boundingBox.y = r.y - boundingBox.height;
                 timeSinceBounce = 0;
                 setYDirection(-18);
@@ -63,8 +70,10 @@ public class Ball {
                 stopGame();
             }
         }
+        // applies gravity to the ball using formula for current velocity given acceleration, time and starting velocity
         yDirection = yDirectionStart + (acceleration * timeSinceBounce);
 
+        // bounces the ball on the edges of the screen
         if (boundingBox.x + xDirection <= 0) {
             boundingBox.x = 0;
             setXDirection((int)(-0.6*xDirection));
@@ -79,7 +88,6 @@ public class Ball {
     }
 
     private int paddleXBounce(Rectangle r) {
-        // returns an x-velocity depending on how the ball hits the paddle
         return (boundingBox.x + boundingBox.width/2 - r.x - r.width/2)/(boundingBox.width/16);
     }
 
@@ -131,6 +139,7 @@ public class Ball {
     }
 
     private void makeCoordinateSystem() {
+        // creates a coordinate system used for making the ball's sprite circular
         for (int i = 0; i < xCoordinates.length; i ++) {
             if (i < width/2) {
                 xCoordinates[i] = ((xCoordinates.length/2 - i) * -1);

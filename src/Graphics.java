@@ -55,6 +55,7 @@ public class Graphics extends Canvas implements Runnable {
     }
 
     private void draw() {
+        // clears the screen
         Arrays.fill(pixels, 0xFF000000);
 
         paddle.draw(pixels, width);
@@ -74,9 +75,11 @@ public class Graphics extends Canvas implements Runnable {
 
     private void update() {
         ball.update(paddle.getBoundingBox(), width, height);
+
         if (ball.stopGame) {
             stop();
         }
+
         paddle.update(width, height);
     }
 

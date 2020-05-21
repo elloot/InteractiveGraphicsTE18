@@ -12,7 +12,9 @@ public class Paddle {
     public Paddle (int x, int y, int width, int height, int col) {
         this.width = width;
         this.height = height;
+
         boundingBox = new Rectangle(x, y, width, height);
+
         pixels = new int[width * height];
         Arrays.fill(pixels, col);
     }
@@ -41,6 +43,8 @@ public class Paddle {
 
     public void update(int width, int height){
         boundingBox.x += xDirection;
+
+        // stops the paddle from going outside of the screen
         if(boundingBox.x <= 0) {
             boundingBox.x = 0;
         }
